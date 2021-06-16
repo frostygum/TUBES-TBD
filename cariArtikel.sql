@@ -24,7 +24,7 @@ AS
 
 	ELSE IF(@parameter='penulis')
 	BEGIN
-		SELECT * 
+		SELECT artikel.idArtikel, Judul
 		FROM Artikel join [User]
 			ON Artikel.IdPenulis = [User].IdUser
 		WHERE NamaDepan LIKE '%' + @filter +'%'  OR
@@ -33,3 +33,4 @@ AS
 
 -- Eksekusi SP cariArtikel
 -- EXEC cariArtikel judul,Google
+-- EXEC cariArtikel penulis,teresa
