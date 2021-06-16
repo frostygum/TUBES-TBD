@@ -1,8 +1,24 @@
+--CREATE FUNCTION
+ALTER FUNCTION pemotongTitikKoma
+(
+	@kalimat varchar(200)
+)
+RETURNS @tblHasil TABLE
+(
+	Kata varchar(100)
+)
+BEGIN
+	INSERT @tblHasil
+	 SELECT value  
+		FROM STRING_SPLIT(@kalimat, ';')
+	RETURN
+END
+
 
 -- CREATE PROCEDURE cariArtikel
 ALTER PROCEDURE cariArtikel
 	@parameter varchar(10),
-	@filter nvarchar(32)
+	@filter varchar(200)
 AS
 	IF(@parameter = 'judul')
 	BEGIN
@@ -13,13 +29,15 @@ AS
 
 	ELSE IF(@parameter='kategori')
 	BEGIN
-		SELECT Artikel.IdArtikel , Judul
+
+		SELECT DISTINCT Artikel.IdArtikel, Artikel.Judul
 		FROM artikelKategori 
 			JOIN kategori
 				ON artikelKategori.idKategori = kategori.idKategori
 			JOIN Artikel 
 				ON Artikel.IdArtikel = ArtikelKategori.IdArtikel
-		WHERE NamaKategori LIKE '%' + @filter +'%' 
+		WHERE namaKategori IN (SELECT Kata FROM pemotongTitikKoma(@filter))
+				
 	END
 
 	ELSE IF(@parameter='penulis')
@@ -34,3 +52,7 @@ AS
 -- Eksekusi SP cariArtikel
 -- EXEC cariArtikel judul,Google
 -- EXEC cariArtikel penulis,teresa
+-- EXEC cariArtikel kategori, 'teknologi;makanan'
+
+select * from Kategori
+select * from ArtikelKategori
