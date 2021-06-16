@@ -1,3 +1,5 @@
+
+-- CREATE PROCEDURE cariArtikel
 ALTER PROCEDURE cariArtikel
 	@parameter varchar(10),
 	@filter nvarchar(32)
@@ -28,3 +30,6 @@ AS
 		WHERE NamaDepan LIKE '%' + @filter +'%'  OR
 			  NamaBelakang LIKE '%' + @filter +'%' 	
 	END
+
+-- Eksekusi SP cariArtikel
+-- EXEC cariArtikel judul,Google
