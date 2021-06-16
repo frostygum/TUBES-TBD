@@ -1,4 +1,5 @@
 -- SP untuk pembelian paket langganan
+-- CREATE PROCEDURE beliPaket
 ALTER PROCEDURE beliPaket
 	@idUser int,
 	@idPaket int
@@ -25,4 +26,5 @@ END
 
 SELECT * FROM @tblHasil
 
-EXEC beliPaket 1
+-- Eksekusi SP beliPaket
+-- EXEC beliPaket 1,1

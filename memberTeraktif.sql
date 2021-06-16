@@ -2,7 +2,6 @@
 -- CREATE PROCEDURE lihatMemberTeraktif
 ALTER PROCEDURE lihatMemberTeraktif
 AS
-
 	DECLARE @res TABLE (
 		IdMember INT, 
 		IdArtikel INT,
