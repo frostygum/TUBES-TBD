@@ -53,6 +53,3 @@ AS
 -- EXEC cariArtikel judul,Google
 -- EXEC cariArtikel penulis,teresa
 -- EXEC cariArtikel kategori, 'teknologi;makanan'
-
-select * from Kategori
-select * from ArtikelKategori
