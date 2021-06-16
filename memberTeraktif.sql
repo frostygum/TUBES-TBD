@@ -19,6 +19,8 @@ AS
 		IdMember, IdArtikel, [Timestamp], Aksi
 	FROM
 		LogMemberArtikel
+	ORDER BY
+		IdMember, IdArtikel, [Timestamp]
 
 	OPEN logData
 
@@ -66,8 +68,6 @@ AS
 		@res
 	GROUP BY
 		IdMember
-	ORDER BY
-		SUM(Durasi) DESC
 
 	SELECT 
 		[User].IdUser, [User].NamaDepan, [User].NamaBelakang, temp.TotalMenitBaca
@@ -75,6 +75,8 @@ AS
 		@resTotal AS temp
 	INNER JOIN
 		[User] ON [User].IdUser = temp.IdMember
+	ORDER BY
+		TotalMenitBaca DESC
 
 -- Eksekusi SP lihatMemberTeraktif
 -- EXEC lihatMemberTeraktif
