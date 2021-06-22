@@ -1,5 +1,4 @@
 -- SP untuk pembelian paket langganan
--- CREATE PROCEDURE beliPaket
 ALTER PROCEDURE beliPaket
 	@idUser int,
 	@idPaket int
@@ -13,12 +12,10 @@ DECLARE @tblHasil TABLE
 	StatusPembayaran BIT
 )
 
--- Declare variabel
-DECLARE
-	@dateNow DATE,
-	@dateEnd DATE
-
 BEGIN
+	INSERT INTO TransaksiLangganan(IdPaket, IdMember, StatusPembayaran)
+	SELECT @idPaket, @idUser, 0
+	
 	-- Insert data disimulasikan ke tabel hasil
 	INSERT INTO @tblHasil
 	SELECT @idPaket, @idUser, 0
@@ -26,5 +23,4 @@ END
 
 SELECT * FROM @tblHasil
 
--- Eksekusi SP beliPaket
--- EXEC beliPaket 1,1
+-- EXEC beliPaket 5,2
