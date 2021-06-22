@@ -23,4 +23,4 @@ END
 
 SELECT * FROM @tblHasil
 
--- EXEC beliPaket 5,2
+-- EXEC beliPaket 3,2
