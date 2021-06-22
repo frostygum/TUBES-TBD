@@ -28,29 +28,44 @@ DECLARE @tblHasil TABLE
 DECLARE
 	@idPaket int,
 	@dateNow date,
-	@dateEnd date
+	@dateEnd date,
+	@jumlahHariAktif int
 
 FETCH NEXT FROM transData
 INTO
 	@idPaket
+	
+-- Declare cursor untuk tabel paket
+DECLARE paketData CURSOR
+FOR
+	SELECT
+		JumlahHariAktif
+	FROM
+		PaketLangganan
+	WHERE
+		IdPaket = @idPaket
+
+OPEN paketData
+
+FETCH NEXT FROM paketData
+INTO
+	@jumlahHariAktif
 
 WHILE @@FETCH_STATUS = 0
 BEGIN
 	-- Ambil tanggal saat ini untuk tanggal pembelian, dan tanggal + x hari untuk tanggal berakhir sesuai paket yang dibeli
 	SELECT @dateNow = CONVERT(VARCHAR(10), getdate(), 111)
-	IF @idPaket = 1 OR @idPaket = 3
-	BEGIN
-		SELECT @dateEnd = DATEADD(DAY, 30, @dateNow)
-	END
-	ELSE IF @idPaket = 2
-	BEGIN
-		SELECT @dateEnd = DATEADD(DAY, 365, @dateNow)
-	END
+	SELECT @dateEnd = DATEADD(DAY, @jumlahHariAktif, @dateNow)
 
 	-- Update tabel pada kolom status pembayaran, tanggal berakhir, dan tanggal pembelian
 	UPDATE TransaksiLangganan
 	SET StatusPembayaran = 1, TanggalBerakhir = @dateEnd, TanggalPembelian = @dateNow
 	WHERE IdMember = @iduser
+
+	-- Update tabel Member untuk atur status langganan
+	UPDATE Member
+	SET StatusLangganan = 1
+	WHERE IdUser = @iduser
 
 	-- Isi tabel hasil
 	INSERT INTO @tblHasil
@@ -59,11 +74,18 @@ BEGIN
 	FETCH NEXT FROM transData
 	INTO
 		@idPaket
+
+	FETCH NEXT FROM paketData
+	INTO
+		@jumlahHariAktif
 END
 
 CLOSE transData
 DEALLOCATE transData
 
+CLOSE paketData
+DEALLOCATE paketData
+
 SELECT * FROM @tblHasil
 
--- EXEC bayarPaket 5
+-- EXEC bayarPaket 3
