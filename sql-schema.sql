@@ -103,8 +103,8 @@ CREATE TABLE TransaksiLangganan
 	IdPaket INT NOT NULL,
 	IdMember INT NOT NULL,
 	StatusPembayaran BIT DEFAULT 0 NOT NULL,
-	TanggalBerakhir DATE NOT NULL, 
-	TanggalPembelian DATE NOT NULL,
+	TanggalBerakhir DATE NULL, 
+	TanggalPembelian DATE NULL,
 	CONSTRAINT PK_TransaksiLangganan PRIMARY KEY (IdTransaksi),
 	CONSTRAINT FK_TL_Paket FOREIGN KEY (IdPaket) REFERENCES PaketLangganan(IdPaket),
 	CONSTRAINT FK_TL_Member FOREIGN KEY (IdMember) REFERENCES [User](IdUser)
