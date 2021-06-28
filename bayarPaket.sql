@@ -20,20 +20,25 @@ DECLARE
 	@jumlahHariAktif int,
 	@statusLangganan int
 
+--melakukan non aktif paket agar yakin benar jika sudah habis masa aktif pada saat membayar
 exec nonAktifkanPaket @idUser
 
+--mengambil status langganan dari user
 SELECT @statusLangganan = StatusLangganan
 FROM Member
 WHERE IdUser = @iduser 
 
+--mengambil paket yang dibeli oleh user
 SELECT @idPaket = IdPaket
 FROM TransaksiLangganan
 WHERE IdMember = @iduser AND StatusPembayaran = 0
 
+--mengambil jumlah hari aktif yang akan ditambahkan
 SELECT @jumlahHariAktif = JumlahHariAktif
 FROM PaketLangganan
 WHERE IdPaket = @idPaket
 
+--Mengecek jika status langganan saat ini tidak ada
 IF @statusLangganan = 0
 BEGIN 
 	-- Ambil tanggal saat ini untuk tanggal pembelian, dan tanggal + x hari untuk tanggal berakhir sesuai paket yang dibeli
@@ -41,6 +46,7 @@ BEGIN
 	SELECT @dateEnd = DATEADD(DAY, @jumlahHariAktif, @dateNow) 
 END
 ELSE
+-- jika saat ini masih berlangganan
 BEGIN
 	-- Ambil tanggal saat ini untuk tanggal pembelian, dan tanggal + x hari untuk tanggal berakhir sesuai paket yang dibeli
 	SELECT @dateNow = tgl.TanggalBerakhir
