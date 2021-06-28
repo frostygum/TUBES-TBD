@@ -7,6 +7,7 @@ ALTER PROCEDURE tambahUser
     @Password VARCHAR(150),
 	@Tipe VARCHAR(10)
 AS
+	-- Memasukkan data ke tabel user
 	INSERT INTO [User] 
 	(
 		NamaDepan, 
@@ -26,6 +27,7 @@ AS
 		@Tipe
 	)
 
+	-- Mendapatkan Id dari AutoIncrement Terakhir menggunakan @IDENTITY
 	DECLARE
 		@lastInsertedId INT = NULL
 
@@ -33,7 +35,8 @@ AS
 		@lastInsertedId = IdUser
 	FROM [User] 
 		WHERE IdUser = @@Identity;
-
+	
+	-- Jika tipenya Member maka tambahkan juga ke tabel member
 	IF (@Tipe = 'member')
 	BEGIN
 		INSERT INTO Member
