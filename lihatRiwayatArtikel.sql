@@ -5,8 +5,10 @@ ALTER FUNCTION statusTerimaToString
 )
 RETURNS VARCHAR(10)
 BEGIN
+    -- Deklarasi variabel
 	DECLARE @statusString VARCHAR(10) = ''
 
+    -- Cek boolean, jika 1 sudah diterima, 0 belum diterima
     IF @status = 1
     BEGIN
         SET @statusString = 'Sudah Diterima'
@@ -25,8 +27,10 @@ ALTER FUNCTION statusBerbayarToString
 )
 RETURNS VARCHAR(10)
 BEGIN
+    -- Deklarasi variabel
 	DECLARE @statusString VARCHAR(10) = ''
 
+    -- Cek boolean, jika 1 sudah diterima, 0 belum diterima
     IF @status = 1
     BEGIN
         SET @statusString = 'Berbayar'
@@ -41,13 +45,16 @@ END
 -- CREATE PROCEDURE lihatRiwayatArtikel
 ALTER PROCEDURE lihatRiwayatArtikel
 	@idPenulis int
-AS
+AS  
+    -- Deklarasi variabel untuk menampung list kategori yang sudah digabungkan
     DECLARE @artikelKategori TABLE 
     (
         IdArtikel INT, 
         Kategori TEXT
     )
 
+    -- Deklarasi cursor
+    -- Menyatukan artikel dengan masin-masing kategorinya
     DECLARE listKategori CURSOR
 	FOR 
 	SELECT 
@@ -63,6 +70,7 @@ AS
 
 	OPEN listKategori
 
+    -- Deklarasi variabel cursor
 	DECLARE
 		@namaKategori VARCHAR(50), 
 		@idArtikel INT,
@@ -76,10 +84,12 @@ AS
 	BEGIN
         IF @currIdArtikel = @idArtikel
         BEGIN
+            -- Jika id artikel merupakan id sebelumnya maka kategori yang sekarang digabungkan
             SET @kategori = @kategori + @namaKategori + ';'
         END
         ELSE
         BEGIN
+            -- Jika id artikel baru maka buat baris baru dan masukkan yang menjadi kategori pertamanya
             SET @idArtikel = @currIdArtikel
             SET @kategori = ''
 
@@ -92,7 +102,8 @@ AS
                 @idArtikel
             )
         END
-
+        
+        -- Update list kategori pada tabel sementara
         UPDATE
             @artikelKategori
         SET
@@ -108,6 +119,7 @@ AS
 	CLOSE listKategori
 	DEALLOCATE listKategori
 
+    -- Tampilkan hasil, dimana kategori sudah digabungkan dan status bayar, status terima sudah dibuat menjadi text
     SELECT 
         Artikel.IdArtikel, 
         Artikel.Judul, 

@@ -3,7 +3,8 @@
 ALTER PROCEDURE nonAktifkanPaket
 	@idMember int
 AS
-	DECLARE 
+	-- Deklarasi variabel
+    DECLARE 
         @endDate DATE,
         @status INT
 
@@ -16,6 +17,7 @@ AS
 
     IF @status = 1
     BEGIN
+        -- Jika status langganan aktif maka mulai non-aktifkan paket
         SELECT TOP 1 
             @endDate = TanggalBerakhir
         FROM 
@@ -24,9 +26,10 @@ AS
             idMember = @idMember AND StatusPembayaran = 1
         ORDER BY 
             TanggalBerakhir DESC
-
+        
         IF @endDate <= GETDATE()
         BEGIN
+            -- Jika waktu sp dijalankan masa aktif sudah lewat maka non-aktifkan
             UPDATE 
                 Member
             SET 

@@ -1,7 +1,11 @@
 
 -- CREATE PROCEDURE lihatMemberTeraktif
 ALTER PROCEDURE lihatMemberTeraktif
+(
+	@showNum INT = 5
+)
 AS
+	-- Deklarasi variabel
 	DECLARE @res TABLE (
 		IdMember INT, 
 		IdArtikel INT,
@@ -13,6 +17,10 @@ AS
 		TotalMenitBaca INT
 	)
 
+	-- Deklarasi cursor
+	-- Cursor mengambil data log dari user yang membaca artikel, aksi dibatasi hanya buka dan tutup, 
+	-- buka dan tutup artikel merupakan satu pasang. Untuk memastikan sepasang buka tutup yang benar
+	-- maka dibutuhkan sort berdasarkan IdUser, IdArtikel, dan timestampnya.
 	DECLARE logData CURSOR
 	FOR 
 	SELECT
@@ -40,8 +48,10 @@ AS
 		
 		IF (@aksi = 'tutup')
 		BEGIN
+			-- Jika aksinya tutup maka hitung jeda waktu antara buka dan tutup 
 			SELECT @timeDiff = DATEDIFF(MINUTE, @timeBefore, @timestamp)
 
+			-- Hasil perhitungan kemudian disimpan ke dalam tabel
 			INSERT INTO 
 				@res
 			SELECT
@@ -49,6 +59,7 @@ AS
 		END
 		ELSE
 		BEGIN
+			-- Jika bukan tutup maka catat timestampnya pada variabel sementara
 			SET @timeBefore = @timestamp
 		END
 
@@ -60,6 +71,7 @@ AS
 	CLOSE logData
 	DEALLOCATE logData
 
+	-- Menjumlahkan waktu baca dari setiap artikel oleh setiap user
 	INSERT INTO
 		@resTotal
 	SELECT 
@@ -69,7 +81,9 @@ AS
 	GROUP BY
 		IdMember
 
-	SELECT 
+	-- Menampilkan nama dan menit baca user yang terurut berdasarkan lama menit baca terbesar
+	-- Secara default, yang ditampilkan hanya 5 tertinggi saja jika input showNum tidak diisi
+	SELECT TOP (@showNum)
 		[User].IdUser, [User].NamaDepan, [User].NamaBelakang, temp.TotalMenitBaca
 	FROM
 		@resTotal AS temp
@@ -79,4 +93,4 @@ AS
 		TotalMenitBaca DESC
 
 -- Eksekusi SP lihatMemberTeraktif
--- EXEC lihatMemberTeraktif
+-- EXEC lihatMemberTeraktif 1
