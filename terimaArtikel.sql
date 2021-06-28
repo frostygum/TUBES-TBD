@@ -4,7 +4,7 @@ ALTER PROCEDURE terimaArtikel
 AS
 	UPDATE Artikel
 	SET
-		IdPenerima = @idAdmin,
+		IdPenerima = @idAdmin, --mengubah nilai idPenerima dan statusTerima
 		StatusTerima = 1
 	WHERE 
 		IdArtikel = @idArtikel;

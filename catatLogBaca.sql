@@ -3,15 +3,15 @@ ALTER PROCEDURE catatLogBaca
 	@idMember int,
 	@aksi varchar(5)
 AS
-	INSERT INTO LogMemberArtikel
+	INSERT INTO LogMemberArtikel --memasukkan ke tabel LogMemberArtikel
 		(IdMember,
 		 IdArtikel,
-		 Timestamp,
+		 Timestamp, 
 		 aksi)
 	VALUES
 		( @idMember,
 		  @idArtikel,
-		 CURRENT_TIMESTAMP,
+		 CURRENT_TIMESTAMP, --mengambil tanggal dan waktu saat dijalankan
 		 @aksi);
 
 -- EXEC catatLogBaca 1,1,'buka'
