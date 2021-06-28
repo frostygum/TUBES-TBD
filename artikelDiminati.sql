@@ -2,7 +2,7 @@
 ALTER PROCEDURE artikelDiminati
 AS
 
--- Declare cursor
+-- Declare cursor untuk baca data dari tabel logMemberArtikel
 DECLARE logCur CURSOR
 FOR
 	SELECT
@@ -50,13 +50,16 @@ WHILE @@FETCH_STATUS = 0
 BEGIN
 	IF (@aksi = 'tutup')
 	BEGIN
+		-- Jika aksi tutup, maka durasi akan dihitung dengan menghitung selisih waktu buka dan waktu tutup
 		SELECT @durasi = DATEDIFF(MINUTE, @waktuBuka, @timestamp)
+		-- Data disimpan ke tabel durasi sehingga berisi durasi per sesi baca
 		INSERT INTO 
 			@tblDurasi
 		SELECT
 			@idArtikel, @idMember, @durasi
 	END
 	ELSE
+		-- Jika aksi buka, waktu timestamp akan disimpan sebagai waktu buka
 		BEGIN
 			SET @waktuBuka = @timestamp
 		END
@@ -72,6 +75,7 @@ END
 CLOSE logCur
 DEALLOCATE logCur
 
+-- Data dari tabel durasi akan dikelompokkan menurut ID artikel dan durasi dari seluruh sesi akan dijumlahkan
 INSERT INTO
 		@tblHasil
 	SELECT 
@@ -83,6 +87,7 @@ INSERT INTO
 	ORDER BY
 		SUM(Durasi) DESC
 
+-- Menampilkan isi tabel hasil
 SELECT * FROM @tblHasil
 
 -- EXEC artikelDiminati
