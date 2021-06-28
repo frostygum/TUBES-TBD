@@ -337,7 +337,7 @@ VALUES
 (
 	'Merdeka Sebulan',
 	'50000',
-	30
+	31
 ),
 (
 	'Setahun Hore',
@@ -347,7 +347,7 @@ VALUES
 (
 	'Pelajar Rajin Sebulan',
 	'20000',
-	30
+	31
 )
 
 /*
