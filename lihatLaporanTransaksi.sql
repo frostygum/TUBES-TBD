@@ -73,7 +73,5 @@ SELECT
 	*
 FROM
 	@tblHasil
-ORDER BY
-	NamaDepan, NamaBelakang
 
 -- EXEC laporanTransaksi
