@@ -1,3 +1,4 @@
+-- CREATE PROCEDURE terimaArtikel
 ALTER PROCEDURE terimaArtikel
 	@idArtikel int,
 	@idAdmin int
@@ -8,6 +9,5 @@ AS
 		StatusTerima = 1
 	WHERE 
 		IdArtikel = @idArtikel;
-
 
 -- EXEC terimaArtikel 4,3
