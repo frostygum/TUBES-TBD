@@ -13,10 +13,11 @@ DECLARE @tblHasil TABLE
 )
 
 BEGIN
+	-- Insert data ke tabel transaksi langganan sebagai transaksi baru
 	INSERT INTO TransaksiLangganan(IdPaket, IdMember, StatusPembayaran)
 	SELECT @idPaket, @idUser, 0
 	
-	-- Insert data disimulasikan ke tabel hasil
+	-- Insert data ke tabel hasil untuk preview
 	INSERT INTO @tblHasil
 	SELECT @idPaket, @idUser, 0
 END
