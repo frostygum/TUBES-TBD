@@ -12,6 +12,19 @@ DECLARE @tblHasil TABLE
 	StatusPembayaran BIT
 )
 
+DECLARE
+	@tipe varchar(50)
+
+--mengambil tipe dari user
+SELECT @tipe = Tipe
+FROM [User]
+WHERE IdUser = @iduser 
+
+IF @tipe = 'admin'
+BEGIN
+	PRINT 'User ID: ' + CAST(@idUser AS VARCHAR) + ' Bukan member.'
+END
+ELSE
 BEGIN
 	-- Insert data ke tabel transaksi langganan sebagai transaksi baru
 	INSERT INTO TransaksiLangganan(IdPaket, IdMember, StatusPembayaran)
@@ -24,5 +37,4 @@ END
 
 SELECT * FROM @tblHasil
 
--- EXEC beliPaket 4,2
-select * from TransaksiLangganan
+-- EXEC beliPaket 3,2
