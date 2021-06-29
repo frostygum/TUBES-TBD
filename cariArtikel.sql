@@ -1,5 +1,5 @@
 --CREATE FUNCTION
-ALTER FUNCTION pemotongTitikKoma
+CREATE FUNCTION pemotongTitikKoma
 (
 	@kalimat varchar(200)
 )

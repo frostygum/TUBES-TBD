@@ -26,19 +26,19 @@ AS
 		@Password,
 		@Tipe
 	)
-
-	-- Mendapatkan Id dari AutoIncrement Terakhir menggunakan @IDENTITY
-	DECLARE
-		@lastInsertedId INT = NULL
-
-	SELECT 
-		@lastInsertedId = IdUser
-	FROM [User] 
-		WHERE IdUser = @@Identity;
 	
 	-- Jika tipenya Member maka tambahkan juga ke tabel member
 	IF (@Tipe = 'member')
 	BEGIN
+		-- Mendapatkan Id dari AutoIncrement Terakhir menggunakan @IDENTITY
+		DECLARE
+			@lastInsertedId INT = NULL
+
+		SELECT 
+			@lastInsertedId = IdUser
+		FROM [User] 
+			WHERE IdUser = @@Identity;
+
 		INSERT INTO Member
 		(
 			idUser
@@ -49,5 +49,7 @@ AS
 
 -- SELECT * FROM [User]
 -- SELECT * FROM Member
+-- delete from [User] where IdUser = 6
+-- delete from member where IdUser = 6
 -- EXEC tambahUser Juan,Anthonius,wonderCookies,'wonde@cooki.es',KSosnsS52srNGqs5BPyX35dmrxJFJ3GJEBUranrrCcr3u7V6KNAd2h5K6nvd9QKZca4LHfUJ2QaYrcN4gnvvtWaf03j,member
 -- EXEC tambahUser Darisu,Hiroshimas,fortuneHands,'fortune@japanhands.co.jp',aoLSnsS52srNGqs5BPyX35dmrxJFJ3GJEBUranrrCcr3u7V6KNAd2h5K6nvd9QKZca4LHfUJ2QaYrcN4gnvvtWaf93N,admin

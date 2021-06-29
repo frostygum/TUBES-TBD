@@ -1,4 +1,4 @@
-ALTER procedure tambahPaket
+CREATE procedure tambahPaket
 	@Nama VARCHAR(50),
 	@Harga VARCHAR(50),
 	@JumlahHariAktif INT

@@ -77,4 +77,5 @@ SELECT @idPaket, 1, @dateNow, @dateEnd
 SELECT * FROM @tblHasil
 
 -- EXEC bayarPaket 4
--- SELECT * FROM TransaksiLangganan WHERE IdMember  = 4
+-- SELECT * FROM TransaksiLangganan WHERE IdMember = 4
+select * from member

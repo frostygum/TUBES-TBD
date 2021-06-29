@@ -1,5 +1,5 @@
 -- CREATE PROCEDURE terimaArtikel
-ALTER PROCEDURE terimaArtikel
+CREATE PROCEDURE terimaArtikel
 	@idArtikel int,
 	@idAdmin int
 AS

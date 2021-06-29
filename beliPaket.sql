@@ -24,4 +24,5 @@ END
 
 SELECT * FROM @tblHasil
 
--- EXEC beliPaket 3,2
+-- EXEC beliPaket 4,2
+select * from TransaksiLangganan
